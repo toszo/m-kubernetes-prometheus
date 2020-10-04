@@ -19,13 +19,14 @@ init: guard-M_RESOURCES guard-M_SHARED setup ensure-state-file template-config-f
 
 #apply method runs module provider logic using config file
 
+apply: guard-M_RESOURCES guard-M_SHARED apply-shell
 #apply: guard-M_RESOURCES guard-M_SHARED setup module-plan terraform-apply update-state-after-apply terraform-output
 
 #audit method should call logic to check if remote components are in "known" state
 #TODO implement validation if remote resources are as expected, possibly with terraform plan
 
 #audit:
-	#AzKS | audit | should output current state of remote components
+	#k8sprom | audit | should output current state of remote components
 
 #destroy: template-tfvars terraform-destroy update-state-after-destroy
 
@@ -53,6 +54,9 @@ initialize-state-file:
 	@echo "$$M_STATE_INITIAL" > $(M_SHARED)/$(M_MODULE_SHORT)/k8sprom-state.tmp
 	@yq m -i -x $(M_SHARED)/$(M_STATE_FILE_NAME) $(M_SHARED)/$(M_MODULE_SHORT)/k8sprom-state.tmp
 	@rm $(M_SHARED)/$(M_MODULE_SHORT)/k8sprom-state.tmp
+
+apply-shell: 
+	$(M_RESOURCES)/install.sh "$(M_SHARED)/$(M_KUBECONFIG_PATH)"
 
 guard-%:
 	@if [ "${${*}}" = "" ]; then \

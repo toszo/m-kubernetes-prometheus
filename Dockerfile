@@ -5,6 +5,9 @@ ENV M_RESOURCES "/resources"
 ENV M_SHARED "/shared"
 
 COPY resources /resources
+RUN chmod +x /resources/install.sh
+
+
 COPY workdir /workdir
 
 WORKDIR /workdir

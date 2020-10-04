@@ -18,6 +18,13 @@ init-mk8sprom: setup
 		init \
 		M_NAME=$(M_NAME)
 
+apply: 
+	@docker run --rm \
+		-v $(M_SHARED_EXTERNAL):/shared \
+		-t $(K8SPROM) \
+		apply \
+		M_NAME=$(M_NAME)
+
 setup: $(M_SHARED_EXTERNAL)
 
 $(M_SHARED_EXTERNAL):
