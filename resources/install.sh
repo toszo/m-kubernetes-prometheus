@@ -1,3 +1,4 @@
-
 export KUBECONFIG="$1"
-kubectl get ns
+
+echo "Install prometheus-community/prometheus"
+helm install prometheus-community/prometheus --generate-name
